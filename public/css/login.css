@@ -38,5 +38,6 @@ input[type='submit'] {
   color: #fff;
   border: none;
   border-radius: 2px;
+  padding: 5px 0;
   margin-bottom: 10px;
 }
