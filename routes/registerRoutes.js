@@ -1,5 +1,6 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const bcrypt = require('bcrypt')
 
 const User = require('../models/UserSchema')
 const app = express()
@@ -25,9 +26,14 @@ router.post('/', async (req, res, next) => {
       })
       console.log(user)
       if (user == null) {
-        //const data = req.body
-        const newUser = await User.create(req.body)
-        console.log(newUser)
+        const data = req.body
+        const newUser = await User.create({
+          ...data,
+          password: await bcrypt.hash(password, 6),
+        })
+        req.session.user = newUser
+        console.log(req.session.user)
+        res.redirect('/')
       } else {
         payload.errorMessage =
           email == user?.email
